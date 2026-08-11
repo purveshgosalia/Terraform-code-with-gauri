@@ -1,19 +1,14 @@
-variable "sg_id" {
-  description = "SG ID for Application Load Balancer"
-  type = string
+variable sg_id {
+    description = "fetching sg id"
 }
-
-variable "subnets" {
-    description = "Subnets for ALB"
+variable subnets {
+    description = "fetching subnets id"
     type = list(string)
 }
 
-variable "vpc_id" {
-    description = "VPC ID for ALB"
-    type = string
-}
+variable vpc_id{
 
-variable "instances" {
-  description = "Instance ID for Target Group Attachment"
-  type = list(string)
+}
+variable instance_id {
+    description = "fetching instance id"
 }

@@ -1,15 +1,13 @@
-variable "sg_id" {
-  description = "SG ID for EC2"
-  type = string
+variable sg_id {
+    description = "The ID of the security group to associate with the EC2 instance"
 }
-
-variable "subnets" {
-  description = "Subnets for EC2"
-  type = list(string)
+variable subnets {
+    description = "subnets for ec2 instance"
+    type = list(string)
 }
 
 variable "ec2_names" {
-    description = "EC2 names"
-    type = list(string)
-    default = ["WebServer1", "WebServer2"]
+    description = "List of names for the EC2 instances"
+    type        = list(string)
+    default     = ["web-1", "web-2"]
 }
