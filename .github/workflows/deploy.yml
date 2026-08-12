@@ -1,37 +1,44 @@
-name: Terraform CI CD Pipeline for Deploying AWS Resources
-run-name: ${{ github.actor }} has triggered the pipeline
+name: Terraform CI CD Pipeline
 
 on:
   push:
     branches:
-      - 'main'
+      - main
 
-env:
-  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build-infra:
-    name: terraform-ci-cd
     runs-on: ubuntu-latest
+
     steps:
+
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::339713176056:role/GitHubActionsTerraformRole
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
       - name: Terraform Init
-        id: init
         run: terraform init
         working-directory: ./Terraform-VPC
+
       - name: Terraform Validate
-        id: validate
         run: terraform validate
         working-directory: ./Terraform-VPC
+
       - name: Terraform Plan
-        id: plan
         run: terraform plan
         working-directory: ./Terraform-VPC
+
       - name: Terraform Apply
-        id: apply
-        run: terraform destroy --auto-approve
+        run: terraform apply --auto-approve
         working-directory: ./Terraform-VPC
