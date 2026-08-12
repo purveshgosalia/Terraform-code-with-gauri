@@ -5,7 +5,11 @@ terraform {
       version = "5.16.1"
     }
   }
-
+   backend "s3" {
+    bucket = "purvesh-terraform-s3-backend"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+  }
 }
 
 provider "aws" {
